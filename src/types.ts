@@ -591,3 +591,49 @@ export interface RadarAutocompleteConfig extends RadarAutocompleteUIOptions {
   placeholder: string, // Placeholder text for the input field
   disabled: boolean,
 }
+
+export interface RadarDirectionsParams {
+  locations: Location[] | string;
+  mode?: RadarTravelMode;
+  units?: 'metric' | 'imperial';
+  avoid?: RadarAvoidOption[] | string;
+  geometry?: 'linestring' | 'polyline5' | 'polyline6';
+  departureTime?: Date | string;
+  heading?: number;
+  alternatives?: boolean;
+  lang?: 'de' | 'en' | 'es' | 'fr' | 'ja' | 'ko' | 'pt' | 'ru';
+}
+
+export interface RadarRouteStep {
+  distance: RadarRouteDistance;
+  duration: RadarRouteDuration;
+  instructions: string;
+  geometry: {
+    polyline: string;
+  };
+}
+
+export interface RadarRouteLeg {
+  startLocation: {
+    latitude: number;
+    longitude: number;
+  };
+  endLocation: {
+    latitude: number;
+    longitude: number;
+  };
+  duration: RadarRouteDuration;
+  distance: RadarRouteDistance;
+  steps: RadarRouteStep[];
+}
+
+export interface RadarDirectionsRoute {
+  duration: RadarRouteDuration;
+  distance: RadarRouteDistance;
+  legs: RadarRouteLeg[];
+  geometry?: GeoJSON.LineString;
+}
+
+export interface RadarDirectionsResponse extends RadarResponse {
+  routes: RadarDirectionsRoute[];
+}

@@ -12,6 +12,7 @@
   "files": [
     "dist",
     "src",
+    "styles",
     "README.md",
     "LICESNSE"
   ],

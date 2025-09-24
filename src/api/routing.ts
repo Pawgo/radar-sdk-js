@@ -3,6 +3,9 @@ import Http from '../http';
 import Navigator from '../navigator';
 
 import type {
+  Location,
+  RadarDirectionsParams,
+  RadarDirectionsResponse,
   RadarDistanceParams,
   RadarRouteResponse,
   RadarMatrixParams,
@@ -125,6 +128,63 @@ class RoutingAPI {
     }
 
     return matrixRes;
+  }
+
+  static async directions(params: RadarDirectionsParams): Promise<RadarDirectionsResponse> {
+    const options = Config.get();
+
+    let {
+      locations,
+      mode,
+      units,
+      avoid,
+      geometry,
+      departureTime,
+      heading,
+      alternatives,
+      lang,
+    } = params;
+
+    // Convert locations array to pipe-delimited string
+    if (Array.isArray(locations)) {
+      locations = locations.map((location: Location) => `${location.latitude},${location.longitude}`).join('|');
+    }
+
+    // Convert avoid array to comma-delimited string
+    if (Array.isArray(avoid)) {
+      avoid = avoid.join(',');
+    }
+
+    // Convert departureTime to ISO string if it's a Date
+    if (departureTime instanceof Date) {
+      departureTime = departureTime.toISOString();
+    }
+
+    const response: any = await Http.request({
+      method: 'GET',
+      path: 'route/directions',
+      data: {
+        locations,
+        mode,
+        units,
+        avoid,
+        geometry,
+        departureTime,
+        heading,
+        alternatives,
+        lang,
+      },
+    });
+
+    const directionsRes = {
+      routes: response.routes,
+    } as RadarDirectionsResponse;
+
+    if (options.debug) {
+      directionsRes.response = response;
+    }
+
+    return directionsRes;
   }
 }
 

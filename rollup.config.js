@@ -34,6 +34,11 @@ export default [
         format: 'esm',
         sourcemap: true,
       },
+      {
+        file: 'dist/radar.cjs.js',
+        format: 'cjs',
+        sourcemap: true,
+      },
     ],
     external: ['maplibre-gl'],
     plugins: [
