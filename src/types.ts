@@ -631,7 +631,9 @@ export interface RadarDirectionsRoute {
   duration: RadarRouteDuration;
   distance: RadarRouteDistance;
   legs: RadarRouteLeg[];
-  geometry?: GeoJSON.LineString;
+  geometry?: {
+    polyline: string;
+  };
 }
 
 export interface RadarDirectionsResponse extends RadarResponse {
