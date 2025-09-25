@@ -46,6 +46,7 @@ const isLiveKey = (key: string): boolean => (
 );
 
 class Radar {
+  private static directionRateLimiter = new RateLimiter();
   public static get VERSION() {
     return SDK_VERSION;
   }
@@ -252,7 +253,8 @@ class Radar {
   }
 
   public static directions(params: RadarDirectionsParams) {
-    return RoutingAPI.directions(params);
+    return Radar.directionRateLimiter.callWithRateLimit(RoutingAPI.directions(params));
+
   }
 }
 

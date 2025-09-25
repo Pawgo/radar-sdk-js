@@ -13,6 +13,7 @@ import type {
 } from '../types';
 
 class RoutingAPI {
+   
   static async distance(params: RadarDistanceParams): Promise<RadarRouteResponse> {
     const options = Config.get();
 
